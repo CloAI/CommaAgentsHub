@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "commaagentshub"
+version = "0.0.1"
+description = ""
+authors = ["Nathaniel Hatch-Martinez <nhm@cloai.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+comma-agents = "^0.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
