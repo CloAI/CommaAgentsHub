@@ -13,7 +13,7 @@ CloAI offers a range of agents, each designed to harness the capabilities of dif
 - **Purpose**: Enables models to work seamlessly with the Bard Agent, Google's Language Learning Model.
 - **Key Feature**: Integrates with Bard's API for engaging and intelligent text generation.
 
-### 2. LLaMa Cpp 🐐
+### 2. LLaMa Cpp 🦙
 - **Purpose**: Utilizes the advancements made by `llama.cpp` and `llama-cpp-python`.
 - **Key Feature**: Brings the power of LLaMa Large Language Models to Python, allowing for local model running and processing.
 
