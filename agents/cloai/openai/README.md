@@ -12,7 +12,7 @@ The `OpenAIAPIAgent` is a Python class that serves as a bridge between your Pyth
 ## Example Usage 🚀
 
 ```python
-from comma_agents.hub.cloai.openai_api import OpenAIAPIAgent
+from comma_agents.hub.cloai.openai import OpenAIAPIAgent
 
 # Configuration for the OpenAIAPIAgent
 config = {
