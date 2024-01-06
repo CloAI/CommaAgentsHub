@@ -1,0 +1,3 @@
+mlx
+transformers
+huggingface_hub
