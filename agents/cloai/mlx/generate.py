@@ -4,12 +4,12 @@ import argparse
 import time
 
 import mlx.core as mx
-import models
+from .models import Model, load, generate as model_generate
 import transformers
 
 
 def generate(
-    model: models.Model,
+    model: Model,
     tokenizer: transformers.AutoTokenizer,
     input_prompt: str,
     max_tokens: int,
@@ -27,7 +27,7 @@ def generate(
     tokens = []
     skip = 0
     for token, n in zip(
-        models.generate(prompt, model, temp),
+        model_generate(prompt, model, temp),
         range(max_tokens),
     ):
         if token == tokenizer.eos_token_id:
@@ -66,5 +66,5 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     mx.random.seed(args.seed)
-    model, tokenizer = models.load(args.model)
+    model, tokenizer = load(args.model)
     generate(model, tokenizer, args.prompt, args.max_tokens, args.temp)

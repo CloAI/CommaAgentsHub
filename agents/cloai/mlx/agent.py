@@ -1,7 +1,7 @@
 from comma_agents.agents.base_agent import BaseAgent
 from comma_agents.prompts.base_prompt import PromptTemplate
-from generate import generate
-from models import load
+from .generate import generate
+from .models import load
 from typing import TypedDict
 import mlx.core as mx
 
