@@ -12,7 +12,7 @@ LLaMa Cpp is a Python wrapper for these LLaMa models. It provides a convenient w
 ## Example Usage 🚀
 
 ```python
-from comma_agents.hub.cloai.llama_cpp import LLaMaAgent
+from comma_agents.hub.agents.cloai.llama_cpp import LLaMaAgent
 
 # Initialize the LLaMaAgent
 llama_agent = LLaMaAgent("MyLLaMaAgent", llama_config={})

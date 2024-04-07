@@ -9,7 +9,7 @@ Bard, Google's Language Learning Model (LLM), is a powerful and intelligent AI t
 ## Example Usage 🚀
 
 ```python
-from comma_agents.hub.cloai.bard import BardAgent
+from comma_agents.hub.agents.cloai.bard import BardAgent
 
 # Initialize a BardAgent instance
 my_bard_agent = BardAgent("MyAgentName")

@@ -12,7 +12,7 @@ The `TogetherAIAgent` facilitates efficient communication between Python applica
 ## Example Usage 🚀
 
 ```python
-from comma_agents.hub.cloai.together import TogetherAIAgent
+from comma_agents.hub.agents.cloai.together import TogetherAIAgent
 # Configuration for TogetherAIAgent
 config = {
     "model": "model_name_here",

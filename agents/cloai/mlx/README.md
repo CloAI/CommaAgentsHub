@@ -17,7 +17,7 @@ MLX is an array framework designed for machine learning on Apple Silicon, create
 ## Example Usage 🚀
 
 ```python
-from comma_agents.hub.cloai.mlx import MLXAgent
+from comma_agents.hub.agents.cloai.mlx.MLXAgent import MLXAgent
 
 # Initialize the MLXAgent
 mlx_agent = MLXAgent("mlx test", {
