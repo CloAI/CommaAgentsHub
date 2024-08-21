@@ -13,8 +13,8 @@ class MLXAgent(BaseAgent):
     
     def __init__(self, name, config: "MLXAgent.Config", **kwargs):
         super().__init__(name, **kwargs)
-        self.model, self.tokenizer = load(config["model_path"])
         self.config = config
+        self.model = None
         
         if kwargs.get("prompt_template") is None:
             self.prompt_template = PromptTemplate("{user_message} {assistant_message}")
@@ -27,5 +27,7 @@ class MLXAgent(BaseAgent):
         
         
     def _call_llm(self, message: str) -> str:
+        if self.model is None:
+            self.model, self.tokenizer = load(self.config["model_path"])
         response = generate(self.model, self.tokenizer, message, self.config["max_tokens"], self.config["temp"])
         return response
