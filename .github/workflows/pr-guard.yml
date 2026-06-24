@@ -1,0 +1,70 @@
+name: PR Guard
+
+# Community contributions add a package under `packages/@scope/project/`. They
+# must NOT touch validation logic, CI workflows, schemas, or root configuration:
+# those define how every submission is reviewed and are the trust boundary of
+# the registry. This job fails any non-maintainer PR that changes protected
+# paths, so a submission can never weaken the checks that gate it.
+#
+# Runs as `pull_request` (not `pull_request_target`): the token is read-only and
+# no untrusted PR code is executed here — this job only reads file paths.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  paths:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            // Maintainers may change anything; only community PRs are fenced in.
+            const trusted = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
+            const association = context.payload.pull_request.author_association;
+            if (trusted.has(association)) {
+              core.info(`Author association is ${association}; skipping path guard.`);
+              return;
+            }
+
+            // Community PRs may only add/modify files under packages/.
+            const isAllowed = (file) => file.startsWith("packages/");
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
+
+            const violations = files
+              .map((f) => f.filename)
+              .filter((name) => !isAllowed(name));
+
+            if (violations.length > 0) {
+              core.summary
+                .addHeading("PR Guard: protected paths changed", 3)
+                .addRaw(
+                  "Community PRs may only add or modify files under `packages/`. " +
+                    "The following changes fall outside that boundary and require a maintainer:",
+                )
+                .addList(violations.map((v) => `\`${v}\``))
+                .write();
+              core.setFailed(
+                `This PR modifies ${violations.length} protected path(s) outside packages/: ` +
+                  violations.join(", "),
+              );
+              return;
+            }
+
+            core.info(`OK: ${files.length} changed file(s), all under packages/.`);

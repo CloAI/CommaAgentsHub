@@ -1,0 +1,32 @@
+name: Dependency Review
+
+# Flags vulnerable, newly added, or disallowed-license dependencies introduced
+# by a PR. In practice community PRs never change root dependencies (PR Guard
+# blocks lockfile edits), so this is a no-op for them and a safety net for the
+# maintainer PRs that do bump @comma-agents/core or other deps.
+#
+# Requires the repository Dependency Graph (on by default for public repos).
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4
+        with:
+          fail-on-severity: high
+          # Results render on the run's Checks tab; commenting would require
+          # pull-requests:write, which fork PRs cannot use anyway.

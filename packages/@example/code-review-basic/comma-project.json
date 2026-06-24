@@ -1,0 +1,23 @@
+{
+  "name": "@example/code-review-basic",
+  "version": "0.1.0",
+  "description": "A basic code review package.",
+  "license": "MIT",
+  "author": {
+    "name": "Example"
+  },
+  "keywords": ["code-review", "developer-tools"],
+  "strategies": {
+    "code-review": {
+      "path": "./strategies/code-review.yaml",
+      "expose": true,
+      "description": "Analyze code and produce actionable review comments."
+    }
+  },
+  "permissions": {
+    "network": false,
+    "filesystem": false,
+    "shell": false,
+    "executesCode": false
+  }
+}

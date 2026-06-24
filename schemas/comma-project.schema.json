@@ -1,0 +1,171 @@
+{
+  "$ref": "#/definitions/CommaProjectManifest",
+  "definitions": {
+    "CommaProjectManifest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^@[a-z0-9][a-z0-9-]*\\/[a-z0-9][a-z0-9-]*$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        },
+        "description": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "contributors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommaProjectManifest/properties/author"
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "strategies": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expose": {
+                "type": "boolean"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false
+          },
+          "propertyNames": {
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          }
+        },
+        "agents": {
+          "$ref": "#/definitions/CommaProjectManifest/properties/strategies"
+        },
+        "flows": {
+          "$ref": "#/definitions/CommaProjectManifest/properties/strategies"
+        },
+        "tools": {
+          "$ref": "#/definitions/CommaProjectManifest/properties/strategies"
+        },
+        "entry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dependencies": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "default": {
+                "type": "string"
+              },
+              "example": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "propertyNames": {
+            "pattern": "^[A-Z_][A-Z0-9_]*$"
+          }
+        },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "network": {
+              "type": "boolean"
+            },
+            "filesystem": {
+              "type": "boolean"
+            },
+            "shell": {
+              "type": "boolean"
+            },
+            "executesCode": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "links": {
+          "type": "object",
+          "properties": {
+            "homepage": {
+              "type": "string",
+              "format": "uri"
+            },
+            "repository": {
+              "type": "string",
+              "format": "uri"
+            },
+            "docs": {
+              "type": "string",
+              "format": "uri"
+            },
+            "issues": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

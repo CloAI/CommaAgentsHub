@@ -1,0 +1,73 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# Least privilege: this workflow only needs to read the repository. It never
+# writes to the repo, comments, or touches secrets — community PRs run with a
+# read-only token.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref to save CI minutes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Pinned to commit SHAs (not mutable tags) to harden against a
+      # compromised/retagged action. Version comments are for humans.
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+
+      - run: corepack enable
+
+      # Validation scripts execute with Bun (`bun run scripts/...`). Without
+      # this step `pnpm check` fails: bun is not preinstalled on the runner.
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: latest
+
+      # Core's Hub subpath is published before this repository is rolled out;
+      # allow the lock to resolve that newly published exact version.
+      # --ignore-scripts prevents dependency lifecycle code from running.
+      - run: pnpm install --no-frozen-lockfile --ignore-scripts
+
+      - run: pnpm check
+
+      # Render a per-package validation summary onto the run's Checks tab so
+      # reviewers can see what a PR changed without reading raw logs. Runs even
+      # when the gate above fails. `jq` is preinstalled on ubuntu-latest.
+      - name: Validation summary
+        if: always()
+        run: |
+          bun run scripts/validate.ts --json > validation.json || true
+          {
+            echo "### CommaAgents validation"
+            echo ""
+            echo "| Package | Result | Errors | Warnings |"
+            echo "| --- | --- | --- | --- |"
+            jq -r '.results[] | "| `\(.name)` | \(if .valid then "✅ valid" else "❌ invalid" end) | \(.errors | length) | \(.warnings | length) |"' validation.json
+            echo ""
+            if jq -e '.results[] | select(.valid | not)' validation.json > /dev/null; then
+              echo "<details><summary>Errors</summary>"
+              echo ""
+              echo '```'
+              jq -r '.results[] | select(.valid | not) | "✗ \(.name)", (.errors[] | "  - \(.)")' validation.json
+              echo '```'
+              echo ""
+              echo "</details>"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

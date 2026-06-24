@@ -1,0 +1,18 @@
+# CODEOWNERS routes review requests and, when "Require review from Code Owners"
+# is enabled in branch protection, requires a listed owner to approve changes to
+# matching paths. This complements the PR Guard workflow with a hard,
+# branch-protection-enforced gate on the registry's trust boundary.
+#
+# ACTION REQUIRED: replace the placeholder owner below with your real GitHub
+# username or team (e.g. @your-handle or @CloAI/maintainers), then uncomment.
+# An unresolvable owner here, combined with required code-owner review, can
+# BLOCK all merges — so these rules ship commented out until you set the owner.
+
+# Trust boundary — only maintainers should change these:
+# /.github/        @CloAI/maintainers
+# /scripts/        @CloAI/maintainers
+# /schemas/        @CloAI/maintainers
+# /package.json    @CloAI/maintainers
+# /pnpm-lock.yaml  @CloAI/maintainers
+# /tsconfig.json   @CloAI/maintainers
+# /registry.json   @CloAI/maintainers

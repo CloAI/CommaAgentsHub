@@ -1,0 +1,21 @@
+{
+  "name": "comma-agents-hub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "bun run scripts/validate.ts",
+    "build-registry": "bun run scripts/build-registry.ts",
+    "sync-schema": "bun run scripts/sync-schema.ts",
+    "check": "bun run sync-schema --check && bun run validate && bun run build-registry --candidate"
+  },
+  "devDependencies": {
+    "bun-types": "^1.1.38",
+    "typescript": "^5.6.3",
+    "yaml": "^2.6.0"
+  },
+  "dependencies": {
+    "@comma-agents/core": "2.0.0-rc.1",
+    "strip-json-comments": "^5.0.2"
+  }
+}

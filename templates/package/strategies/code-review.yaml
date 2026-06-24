@@ -1,0 +1,22 @@
+name: Code Review
+version: "0.1.0"
+description: Analyze code and suggest improvements.
+
+agents:
+  analyzer:
+    model: openai/gpt-4o
+    systemPrompt: >
+      Examine the user's code. Identify bugs, edge cases, risks, and code smells.
+      Output a concise numbered list.
+
+  reviewer:
+    model: openai/gpt-4o
+    systemPrompt: >
+      Convert the analyzer's findings into concrete, actionable review comments.
+
+flow:
+  name: Review Pipeline
+  type: sequential
+  steps:
+    - agent: analyzer
+    - agent: reviewer

@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "packages": [
+    {
+      "name": "@comma/core-strategies",
+      "version": "1.0.0",
+      "description": "Official Build, Plan, QA, maintenance, and conversation strategies for CommaAgents.",
+      "license": "MIT",
+      "path": "packages/@comma/core-strategies",
+      "exports": {
+        "strategies": [
+          {
+            "id": "build",
+            "ref": "@comma/core-strategies/strategies/build",
+            "path": "packages/@comma/core-strategies/build/build.json",
+            "description": "Plan, implement, and verify a requested code change."
+          },
+          {
+            "id": "plan",
+            "ref": "@comma/core-strategies/strategies/plan",
+            "path": "packages/@comma/core-strategies/plan/plan.json",
+            "description": "Investigate a task and produce a reviewed implementation plan."
+          },
+          {
+            "id": "qa",
+            "ref": "@comma/core-strategies/strategies/qa",
+            "path": "packages/@comma/core-strategies/qa.json",
+            "description": "Review a change set and report evidence-backed findings."
+          },
+          {
+            "id": "reduce-complexity",
+            "ref": "@comma/core-strategies/strategies/reduce-complexity",
+            "path": "packages/@comma/core-strategies/reduce-complexity/reduce-complexity.jsonc",
+            "description": "Identify and reduce unnecessary implementation complexity."
+          },
+          {
+            "id": "standardize",
+            "ref": "@comma/core-strategies/strategies/standardize",
+            "path": "packages/@comma/core-strategies/standardize/manager.jsonc",
+            "description": "Coordinate standards-driven updates across a project."
+          },
+          {
+            "id": "talk",
+            "ref": "@comma/core-strategies/strategies/talk",
+            "path": "packages/@comma/core-strategies/talk.json",
+            "description": "Answer questions with optional codebase and web investigation."
+          }
+        ],
+        "agents": [],
+        "flows": [],
+        "tools": []
+      },
+      "permissions": {
+        "network": true,
+        "filesystem": true,
+        "shell": true,
+        "executesCode": false
+      }
+    },
+    {
+      "name": "@example/code-review-basic",
+      "version": "0.1.0",
+      "description": "A basic code review package.",
+      "license": "MIT",
+      "path": "packages/@example/code-review-basic",
+      "author": {
+        "name": "Example"
+      },
+      "keywords": [
+        "code-review",
+        "developer-tools"
+      ],
+      "exports": {
+        "strategies": [
+          {
+            "id": "code-review",
+            "ref": "@example/code-review-basic/strategies/code-review",
+            "path": "packages/@example/code-review-basic/strategies/code-review.yaml",
+            "description": "Analyze code and produce actionable review comments."
+          }
+        ],
+        "agents": [],
+        "flows": [],
+        "tools": []
+      },
+      "permissions": {
+        "network": false,
+        "filesystem": false,
+        "shell": false,
+        "executesCode": false
+      }
+    }
+  ]
+}
